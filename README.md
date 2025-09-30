@@ -1,2 +1,2 @@
 # DS-Turma1-PI_ERP
-PI de Sistema de ERP - SENAC
+Sistema que centraliza e organiza os dados de todos os setores de uma empresa, visando a produtividade e automação de tarefas manuais.
