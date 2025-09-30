@@ -1,0 +1,5 @@
+REQUISITOS DO SISTEMA
+
+1. Estar conectado a um banco de dados.
+2. O sistema deverá ser intuitivo.
+3. O sistema deverá suportar vários acessos simultâneos.
