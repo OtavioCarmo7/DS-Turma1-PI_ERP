@@ -1,0 +1,2 @@
+Nome sistema: InnovareLabs
+Classes: Funcionários, Produção, GestorVenda, GestorCompra, GestorFinanceiro, GestorRH, GestorEstoque, GestorProducao, Compra, Venda, Financeiro, NotaFiscal, Cargo, Departamento, RH, Estoque, Lote, Item, Insumo, Produto, Fornecedor.
