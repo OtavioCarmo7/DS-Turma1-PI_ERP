@@ -4,14 +4,28 @@
 
 /* =================================================== HEADER ===================================================*/
 
-@media (max-width:960px) and (min-height:472px) {
+@media (min-width:390px) and (max-width: 415px) {
+
+    .ImagemHeader {
+        width: 6rem;
+        height: auto;
+        max-width: 100%;
+        background-color: white;
+        border-radius: 50%;
+        border: 1px solid;
+        border-color: gray;
+    }
+
     .navbar-toggler {
         border: none;
-        position: relative;
         color: black;
-        font-size: 1.0rem;
-        margin-bottom: 2.5vh;
+        font-size: 1.5rem;
 
+    }
+
+    .navbar-toggler-icon {
+        display: flex;
+        margin-top: 15px;
     }
 
     .navbar-toggler:focus,
@@ -24,44 +38,36 @@
         color: black;
         font-weight: 500;
         position: relative;
-        font-size: 1.2vw;
+        font-size: 4vw;
     }
 
     .Icons {
-        position: relative;
-        margin-right: 3%;
-        width: 1.5vw;
+        margin-right: 5%;
+        width: 6vw;
         height: auto;
         max-width: 100%;
-        top: 0.4vh;
-    }
-
-    .ImagemHeader {
-        position: relative;
-        width: 7vw;
-        height: auto;
-        max-width: 100%;
-
-        background-color: white;
-        border-radius: 50%;
-        border: 0.5px solid;
-        border-color: gray;
-        bottom: 0.2vh;
     }
 
     .login-button {
-        position: relative;
         background-color: white;
         color: black;
-        font-size: 1vw;
-        bottom: 0.4vw;
-        padding: 1vh 0.8vw;
-        border-radius: 2vw;
+        font-size: 3vw;
+        padding: 0.5rem 4vw;
+        border-radius: 5vw;
         text-decoration: none;
         transition: 0.3s background-color;
     }
+
+    .Setas {
+        padding: 80px;
+        max-width: 6vw;
+        max-height: 220vh;
+        height: auto;
+        margin-left: 20px;
+    }
 }
 
+/*
 @media (max-width:768px) and (min-height:120px) {
     .navbar-toggler {
         border: none;
@@ -293,7 +299,7 @@
         text-decoration: none;
         transition: 0.3s background-color;
     }
-}
+} */
 
 /* =================================================== CARROSSEIS =================================================== */
 
@@ -418,89 +424,3 @@
     }
 
 }
-
-
-
-/* @media (min-width:2049px) and (max-width: 2731px) {
-    #SlidesProdutos {
-        margin-top: 5%;
-        margin-left: 0vw;
-    }
-
-    .card-img-top {
-        position: relative;
-        left: 30%;
-        width: 4vw;
-        height: 10vh;
-
-    }
-
-    .card-wrapper {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 50px;
-    }
-
-    .card {
-        width: 16rem;
-    }
-
-    #Proximo {
-        border-radius: 50%;
-        height: 20px;
-        width: auto;
-        padding: 15px;
-        margin-left: 2vw;
-    }
-
-    #Anterior {
-        border-radius: 50%;
-        height: 20px;
-        width: auto;
-        padding: 15px;
-        margin-right: 2vw;
-    }
-
-}
-
-@media (min-width:2732px) and (max-width: 2564px) {
-    #SlidesProdutos {
-        margin-top: 5%;
-        margin-left: 0vw;
-    }
-
-    .card-img-top {
-        position: relative;
-        left: 30%;
-        width: 4vw;
-        height: 10vh;
-
-    }
-
-    .card-wrapper {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 50vh;
-    }
-
-    .card {
-        width: 16rem;
-    }
-
-    #Proximo {
-        border-radius: 50%;
-        height: 20px;
-        width: auto;
-        padding: 15px;
-        margin-left: 2vw;
-    }
-
-    #Anterior {
-        border-radius: 50%;
-        height: 20px;
-        width: auto;
-        padding: 15px;
-        margin-right: 2vw;
-    }
-
-} */
