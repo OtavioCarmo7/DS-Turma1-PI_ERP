@@ -1,9 +1,7 @@
 -- ================================= BANCO DE DADOS =================================
 CREATE DATABASE dbSannus;
-GO;
 
 USE dbSannus;
-GO;
 
 -- ================================= TABELAS =================================
 
@@ -16,18 +14,16 @@ CREATE TABLE Tbl_Fornecedor
 	cnpj CHAR(14) NOT NULL,
 	email VARCHAR(255) NOT NULL
 );
-GO;
 
-CREATE TABLE Tbl_Telefone
+CREATE TABLE Tbl_Telefone_Fornecedor
 (
 	id INT PRIMARY KEY IDENTITY,
 	id_Fornecedor INT NOT NULL,
 	telefone VARCHAR(14)
 	FOREIGN KEY (id_Fornecedor) REFERENCES Tbl_Fornecedor(id)
 );
-GO;
 
--- TABELAS Usuario, Cliente e Funcionario
+-- TABELAS Usuario, Telefone_Usuario, Cliente e Funcionario
 
 CREATE TABLE Tbl_Usuario 
 (
@@ -37,9 +33,15 @@ CREATE TABLE Tbl_Usuario
 	email VARCHAR(255) NOT NULL,
 	senha VARCHAR(25) NOT NULL,
 	data_Nasc DATE NOT NULL,
-	telefone VARCHAR(14) NOT NULL
 );
-GO;
+
+CREATE TABLE Tbl_Telefone_Usuario
+(
+	id INT PRIMARY KEY IDENTITY,
+	id_Usuario INT NOT NULL,
+	telefone CHAR(14) NOT NULL
+	FOREIGN KEY (id_Usuario) REFERENCES Tbl_Usuario(id)
+);
 
 CREATE TABLE Tbl_Cliente 
 (
@@ -48,7 +50,6 @@ CREATE TABLE Tbl_Cliente
 	aceita_Ofertas BIT
 	FOREIGN KEY (id_Usuario) REFERENCES Tbl_Usuario(id)
 );
-GO;
 
 CREATE TABLE Tbl_Funcionario 
 (
@@ -59,7 +60,6 @@ CREATE TABLE Tbl_Funcionario
 	situacao VARCHAR(20) NOT NULL
 	FOREIGN KEY (id_Usuario) REFERENCES Tbl_Usuario(id)
 );
-GO;
 
 -- TABELAS Endereço, Fornecedor_Endereço, Cliente_Endereço
 
@@ -72,7 +72,6 @@ CREATE TABLE Tbl_Endereco
 	cidade VARCHAR(100) NOT NULL,
 	uf CHAR(2) NOT NULL
 );
-GO;
 
 CREATE TABLE Tbl_Fornecedor_Endereco 
 (
@@ -85,7 +84,6 @@ CREATE TABLE Tbl_Fornecedor_Endereco
 	FOREIGN KEY (id_Endereco) REFERENCES Tbl_Endereco(id),
 	FOREIGN KEY (id_Fornecedor) REFERENCES TBL_Fornecedor(id)
 );
-GO;
 
 CREATE TABLE Tbl_Cliente_Endereco
 (
@@ -98,7 +96,6 @@ CREATE TABLE Tbl_Cliente_Endereco
 	FOREIGN KEY (id_Endereco) REFERENCES Tbl_Endereco(id),
 	FOREIGN KEY (id_Cliente) REFERENCES TBL_Cliente(id)
 );
-GO;
 
 -- TABELAS Produto, Compra, Lote, Estoque, ProdutoVenda, Venda, Forma de Pagamento
 
@@ -110,7 +107,6 @@ CREATE TABLE Tbl_Produto
 	preco DECIMAL(7,2) NOT NULL,
 	tarja VARCHAR(20) NOT NULL
 );
-GO;
 
 CREATE TABLE Tbl_Compra
 (
@@ -122,7 +118,6 @@ CREATE TABLE Tbl_Compra
 	FOREIGN KEY (id_Produto) REFERENCES Tbl_Produto (id),
 	FOREIGN KEY (id_Fornecedor) REFERENCES Tbl_Fornecedor(id)
 );
-GO;
 
 CREATE TABLE Tbl_Lote
 (
@@ -133,7 +128,6 @@ CREATE TABLE Tbl_Lote
 	validade DATE NOT NULL
 	FOREIGN KEY (id_Produto) REFERENCES Tbl_Produto(id)
 );
-GO;
 
 CREATE TABLE Tbl_Estoque
 (
@@ -142,36 +136,28 @@ CREATE TABLE Tbl_Estoque
 	posicao VARCHAR(30) NOT NULL
 	FOREIGN KEY (id_Lote) REFERENCES TBL_Lote(id)
 );
-GO;
-
-CREATE TABLE Tbl_Forma_Pagamento
-(
-	id INT PRIMARY KEY IDENTITY,
-	id_Cliente INT NOT NULL,
-	nome_Cartao VARCHAR(100) NOT NULL,
-	cpf_Cartao CHAR(11) NOT NULL,
-	tipo VARCHAR(10) NOT NULL,
-	numero VARCHAR(19) NOT NULL,
-	validade DATE NOT NULL,
-	cvv VARCHAR (4) NOT NULL
-	FOREIGN KEY (id_Cliente) REFERENCES Tbl_Cliente(id)
-);
-GO;
 
 CREATE TABLE Tbl_Venda
 (
 	id INT PRIMARY KEY IDENTITY,
 	id_Cliente INT NOT NULL,
-	id_Forma_Pagamento INT NOT NULL,
+	id_Funcionario INT NOT NULL,
 	nfe VARCHAR(100),
 	valor DECIMAL(8,2),
 	data_Venda DATETIME,
-	forma_Pagamento VARCHAR(10),
 	canal_Venda VARCHAR(20)
 	FOREIGN KEY (id_Cliente) REFERENCES Tbl_Cliente(id),
-	FOREIGN KEY (id_Forma_Pagamento) REFERENCES Tbl_Forma_Pagamento(id)
+	FOREIGN KEY (id_Funcionario) REFERENCES Tbl_Funcionario(id)
 );
-GO;
+
+CREATE TABLE Tbl_Pagamento_Venda
+(
+	id INT PRIMARY KEY IDENTITY,
+	id_Venda INT NOT NULL,
+	forma_Pagamento VARCHAR(9) NOT NULL,
+	situacao VARCHAR(8) NOT NULL
+	FOREIGN KEY (id_Venda) REFERENCES Tbl_Venda(id)
+);
 
 CREATE TABLE Tbl_Produto_Venda
 (
@@ -182,7 +168,24 @@ CREATE TABLE Tbl_Produto_Venda
 	FOREIGN KEY (id_Venda) REFERENCES Tbl_Venda (id),
 	FOREIGN KEY (id_Produto) REFERENCES Tbl_Produto (id)
 );
-GO;
 
 -- ================================= USUÁRIOS e LOGINS =================================
 
+-- LOGIN
+USE master;
+
+CREATE LOGIN loginSannus
+WITH PASSWORD = 'Sannus@PI',
+CHECK_POLICY = OFF,
+DEFAULT_DATABASE = dbSannus,
+DEFAULT_LANGUAGE = Portuguese;
+
+-- USUÁRIO
+USE dbSannus;
+
+CREATE USER userSannus FOR LOGIN loginSannus;
+
+ALTER ROLE db_datareader ADD MEMBER userSannus;
+ALTER ROLE db_datawriter  ADD MEMBER userSannus;
+
+GRANT EXECUTE TO userSannus;
