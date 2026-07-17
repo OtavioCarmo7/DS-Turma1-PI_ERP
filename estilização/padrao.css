@@ -1,0 +1,201 @@
+:root{
+    --azul-principal: #2596BE;
+    --azul-claro: #7ABDD5;
+    --verde: #54BE1B;
+    --branco: #FFFFFF;
+    --botao-menu: #BECBCF;
+    --preto-preco: #222;
+    --cinza-texto: #888;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+#header{
+    background-color: var(--azul-principal);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 30px;
+}
+
+#search-box{
+    flex: 1;
+    display: flex;
+    margin-left: 650px
+}
+
+#search-input {
+    background-color: var(--azul-principal);
+    border: 1px solid var(--branco);
+    color: var(--branco);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+#header-icons{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon-group{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.icon-img{
+  width: 40px;
+  height: 40px;
+}
+
+#profile-icon, #cart-icon{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#profile{
+    color: var(--branco);
+    font-size: 14px;
+}
+
+#menu-btn{
+    background-color: var(--botao-menu);
+    border: none;
+    color: var(--azul-principal);
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#menu-btn:hover{
+    background-color: var(--verde);
+    color: var(--branco);
+    transform: scale(1.05);
+
+}
+/*parte inferior azul claro da header*/
+#navbar{
+    background-color: var(--azul-claro);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    padding: 15px 20px;
+}
+
+#nav-links{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.nav-link{
+    text-decoration: none;
+    color: var(--preto-preco);
+}
+
+#cart-icon{
+    position: relative;
+}
+
+#cart-count{
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background-color: red;
+    color: var(--branco);
+    font-size: 11px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+/*Imagem da logo*/
+#logo{
+  width: 280px;
+}
+
+#logo img{
+  width: 100%;
+  height: auto;
+}
+
+/*footer*/
+
+footer {
+    background-color: var(--azul-principal);
+    color: var(--branco);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 40px 60px;
+}
+
+#logo-footer{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 280px;
+    height: auto;
+    margin-top: 5%;
+}
+
+#logo-footer img { width: 150px; height: auto; }
+
+.contato-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+.contato-section h3,
+.redes-section h3 {
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.contato-section h3::after,
+.redes-section h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background-color: var(--branco);
+}
+
+.insta-info img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.contato-info a {
+    color: inherit;
+    text-decoration: none;
+
+}

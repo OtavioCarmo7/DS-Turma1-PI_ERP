@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Sanus</title>
+<link rel="stylesheet" href="../estilização/telaprincipal.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="../estilização/padrao.css">
+</head>
+<body>
+ 
+<header id="header">
+  <div id="logo">
+    <img src="../images/logo.png" alt="Sanus">
+  </div>
+ 
+  <div id="search-box">
+    <input type="text" id="search-input" placeholder="Buscar produto...">
+  </div>
+ 
+  <div id="header-icons">
+    <div class="icon-group" id="profile-icon">
+        <img src="../images/perfil.png" alt="Perfil" class="icon-img">
+        <span id="profile">SEU PERFIL</span>
+        </div>
+
+        <div class="icon-group" id="cart-icon">
+        <img src="../images/carrinho.png" alt="Carrinho" class="icon-img">
+        <span id="cart-count">2</span>
+    </div>
+    <button id="menu-btn">MENU</button>
+  </div>
+</header>
+ 
+<nav id="navbar">
+  <i class="fa-solid fa-bars hamburger-icon"></i>
+ 
+  <ul id="nav-links">
+    <li><a href="#" class="nav-link">CATEGORIA</a></li>
+    <li><a href="#" class="nav-link active">INÍCIO</a></li>
+    <li><a href="#" class="nav-link">PRODUTOS</a></li>
+    <li><a href="#" class="nav-link">AJUDA</a></li>
+    <li><a href="#" class="nav-link">CONTATO</a></li>
+  </ul>
+</nav>
+ 
+<section id="banner">
+  <button class="banner-arrow" id="banner-prev"><i class="fa-solid fa-arrow-left"></i></button>
+ 
+  <div id="banner-content">
+    <p id="banner-tag">SUPER PROMOÇÃO</p>
+    <h1 id="banner-title">35% DE DESCONTO</h1>
+    <p id="banner-subtitle">EM PRODUTOS FARMACÊUTICOS</p>
+    <button id="banner-cta">EXPLORE AGORA</button>
+  </div>
+ 
+  <img id="banner-image" src="../images/medicacoes.png" alt="Medicações">
+ 
+  <button class="banner-arrow" id="banner-next"><i class="fa-solid fa-arrow-right"></i></button>
+</section>
+ 
+<section id="products-section">
+  <div id="products-header">
+    <h2>Vitaminas e Suplementos para a saúde e imunidade</h2>
+    <div id="products-nav">
+      <button class="products-arrow" id="products-prev"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="products-arrow" id="products-next"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+ 
+  <div id="products-grid" class="products-grid">
+    <div class="product-card">
+      <span class="product-tag">OFERTA</span>
+      <button class="product-fav"><i class="fa-regular fa-heart"></i></button>
+      <img class="product-img" src="../images/produto1.png" alt="Produto">
+      <p class="product-name">Creme Hidratante Facial 5% Manteiga de Karité + 5% Glicerina...</p>
+      <p class="product-price-old">R$ 49,00</p>
+      <p class="product-price">R$ 39,00</p>
+    </div>
+    <!-- repetir .product-card para os demais produtos -->
+  </div>
+</section>
+ 
+<section id="icons-bar" class="icons-bar">
+  <div class="icon-item">
+    <i class="fa-solid fa-mobile-screen-button"></i>
+    <div>
+      <strong>BAIXE</strong>
+      <span>nosso aplicativo</span>
+    </div>
+  </div>
+  <div class="icon-item">
+    <i class="fa-solid fa-hand-holding-box"></i>
+    <div>
+      <strong>RETIRE NA LOJA</strong>
+      <span>mais perto de você</span>
+    </div>
+  </div>
+  <div class="icon-item">
+    <i class="fa-brands fa-whatsapp"></i>
+    <div>
+      <strong>WHATSAPP</strong>
+      <span>Fale Conosco</span>
+    </div>
+  </div>
+</section>
+ 
+<footer>
+  <div id="logo-footer">
+    <img src="../images/logo.png" alt="Logo Sanus">
+  </div>
+
+  <div class="contato-section">
+    <h3>FALE CONOSCO</h3>
+    <div class="contato-item">
+      <div class="contato-icon"><i class="fa-solid fa-at"></i></div>
+      <div class="contato-info">
+        <span class="contato-label">E-MAIL OFICIAL</span>
+        <a href="mailto:sanussistemasetecnologia@outlook.com">sanussistemasetecnologia@outlook.com</a>
+      </div>
+    </div>
+
+    <div class="contato-item">
+      <div class="contato-icon"><i class="fa-brands fa-whatsapp"></i></div>
+      <div class="contato-info">
+        <span class="contato-label">WHATSAPP / TELEFONE</span>
+        <a href="https://wa.me/5511999990000">(11) 99999-0000</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="redes-section">
+    <h3>SIGA A GENTE</h3>
+    <div class="insta-info">
+      <a href="https://www.instagram.com/sanussistemasetecnologia" target="_blank">
+        <img src="../images/insta.png" alt="Logo do instagram">
+      </a>
+    </div>
+
+    <div class="insta-info">
+      <a href="#" target="_blank">
+        <img src="../images/facebook.png" alt="Logo do facebook">
+      </a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+/*Banner principal*/
+#banner {
+  background: linear-gradient(135deg, var(--azul-principal), var(--azul-claro));
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 40px 60px;
+  color: var(--branco);
+  overflow: hidden;
+}
+
+#banner-content {
+  max-width: 400px;
+}
+
+#banner-tag {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+#banner-title {
+  font-size: 2.5rem;
+  margin: 5px 0;
+}
+
+#banner-cta {
+  background-color: var(--branco);
+  color: var(--azul-principal);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#banner-image {
+  position: absolute;
+  right: 40px;
+  max-height: 90%;
+}
+
+.banner-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.3);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+#banner-prev { left: 15px; }
+#banner-next { right: 15px; }
+
+/*Carrosel*/
+
+#products-section {
+  padding: 30px 60px;
+}
+
+#products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.products-grid {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.product-card {
+  position: relative;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 15px;
+  width: 180px;
+  flex-shrink: 0;
+}
+
+.product-img {
+  width: 100%;
+  height: auto;
+}
+
+.product-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--verde);
+  color: var(--branco);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.product-fav {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.product-name {
+  font-size: 14px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.product-price-old {
+  text-decoration: line-through;
+  color: var(--cinza-texto);
+  font-size: 13px;
+}
+
+.product-price {
+  color: var(--preto-preco);
+  font-weight: bold;
+}
+
+/*Barra de icones*/
+
+.icons-bar {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  padding: 30px 60px;
+}
+
+.icon-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-item i {
+  font-size: 24px;
+  color: var(--azul-principal);
+}
+
+/* ===== MEDIA QUERIES - Sanus ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  #header {
+    flex-wrap: wrap;
+    padding: 10px 20px;
+  }
+
+  #search-box {
+    order: 3;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  #products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #banner-title {
+    font-size: 2rem;
+  }
+}
+
+/* Tablets pequenos / navbar vira menu */
+@media (max-width: 768px) {
+  #header-icons #menu-btn {
+    display: block;
+  }
+
+  #navbar .hamburger-icon {
+    display: block;
+  }
+
+  #nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #nav-links.active {
+    display: flex;
+  }
+
+  #banner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #banner-image {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
+  }
+
+  .banner-arrow {
+    display: none;
+  }
+
+  #products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .icons-bar {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+/* Celulares */
+@media (max-width: 480px) {
+  #logo img {
+    max-width: 100px;
+  }
+
+  #profile span,
+  #cart-icon span#cart-count {
+    display: none;
+  }
+
+  #products-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  #products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-name {
+    font-size: 0.85rem;
+  }
+
+  #banner-title {
+    font-size: 1.4rem;
+  }
+
+  #banner-subtitle {
+    font-size: 0.9rem;
+  }
+}
