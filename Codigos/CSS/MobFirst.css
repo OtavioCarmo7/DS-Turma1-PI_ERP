@@ -1,0 +1,29 @@
+@charset "UTF-8";
+
+/* Versão Mobile First */
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3em;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100vw;
+    height: 100vw;
+}
+
+body {
+    background: cyan;
+}
+
+main {
+    background-color: white;
+    width: 90vw;
+    margin: auto;
+    border-radius: 100px;
+    padding: 10px;
+
+}

@@ -1,0 +1,392 @@
+<!-- ETAPAS:
+- Fazer header: OK
+- Fazer os carrosseus: OK
+- Fazer a responsividade: Falta colocar quando aumenta e a parte da main
+- Colocar as imagens dos produtos:
+- Fazer a footer: -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Tela Inicial Innovare Labs">
+    <meta name="keywords" content="Empresa, Farmácia, Informações, Gestão">
+    <meta name="authot" content="Innovare Labs Enterprise">
+    <title>Innovare Labs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../CSS/StyleIndex.css">
+    <link rel="stylesheet" href="../CSS/MediaQuarrys.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand me-auto" href="#"><img src="Imagens/ImagemLogo PNG.png" class="ImagemHeader"
+                        alt="Logo"></a>
+                <div class="offcanvas offcanvas-end Opcoes" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-center ps-lg-5 flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" aria-current="page" href="#">Categorias</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" href="#">Produtos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" href="#">Ajuda</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" href="#">Contatos</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <a href="#" class="Icons" id="Icons"><img src="Imagens/magnifying-glass.png" alt="Buscar"
+                        class="Icons"></a>
+                <a href="#" class="Icons" id="Icons"><img src="Imagens/grocery-store.png" alt="Carrinho"
+                        class="Icons"></a>
+                <a href="#" class="login-button">Login</a>
+                <button class="navbar-toggler Icons" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="mainCarrossel">
+        <section id="SlidesInicio">
+            <div class="carousel slide" id="carouselExample" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="Imagens/1709.jpg" class="d-block w-100 Imagens" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Imagens/TesteCarrossel.jpg" class="d-block w-100 Imagens" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="Imagens/TesteCarrossel.jpg" class="d-block w-100 Imagens" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev Setas" type="button" data-bs-target="#carouselExample"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next Setas" type="button" data-bs-target="#carouselExample"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="SlidesProdutos">
+            <h1 class="TituloProdutos">Vitaminas e Suplementos para a Saúde e Imunidade</h1>
+
+            <div class="carrosselProdutos">
+                <div class="grupo">
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Dipirona</h5>
+                            <p class="card-text">R$300.00</p>
+                            <a href="#" class="btn btn-primary">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Neusaldina</h5>
+                            <p class="card-text">R$12.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Neusaldina">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Colírio</h5>
+                            <p class="card-text">R$80.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Colírio">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Dipirona</h5>
+                            <p class="card-text">R$300.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Dipirona">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Neusaldina</h5>
+                            <p class="card-text">R$12.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Neusaldina">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Colírio</h5>
+                            <p class="card-text">R$80.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Colírio">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div aria-hidden class="grupo">
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Dipirona</h5>
+                            <p class="card-text">R$300.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Dipirona">Comprar</a>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Neusaldina</h5>
+                            <p class="card-text">R$12.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Neusaldina">Comprar</a>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Colírio</h5>
+                            <p class="card-text">R$80.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Colírio">Comprar</a>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Dipirona</h5>
+                            <p class="card-text">R$300.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Dipirona">Comprar</a>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Neusaldina</h5>
+                            <p class="card-text">R$12.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Neusaldina">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Colírio</h5>
+                            <p class="card-text">R$80.00</p>
+                            <a href="#" class="btn btn-primary" title="Comprar Colírio">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div aria-hidden class="grupo">
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Dipirona</h5>
+                            <p class="card-text">R$300.00</p>
+                            <a href="#" class="btn btn-primary">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Neusaldina</h5>
+                            <p class="card-text">R$12.00</p>
+                            <a href="#" class="btn btn-primary">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Colírio</h5>
+                            <p class="card-text">R$80.00</p>
+                            <a href="#" class="btn btn-primary">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Dipirona</h5>
+                            <p class="card-text">R$300.00</p>
+                            <a href="#" class="btn btn-primary">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Neusaldina</h5>
+                            <p class="card-text">R$12.00</p>
+                            <a href="#" class="btn btn-primary">Comprar</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="Imagens/grocery-store.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Colírio</h5>
+                            <p class="card-text">R$80.00</p>
+                            <a href="#" class="btn btn-primary">Comprar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--Colocar o app, retirar loja-->
+    <footer>
+        <footer class="text-center text-lg-start text-dark" style="background-color: #ECEFF1">
+            <!-- Section: Social media -->
+            <section class="d-flex justify-content-between p-4 text-white footer">
+                <!-- Left -->
+                <div class="me-5">
+                    <span class="RedesTexto">Fique ligado em nós:</span>
+                </div>
+                <!-- Left -->
+
+                <!-- Right -->
+                <div>
+                    <a href="#" class="me-4" id="Circulo">
+                        <i class="fab fa-aplicativo"><img src="../Icons e Imagens/Icons/smartphone.png" title="Baixe nosso app" class="Redes" alt="Baixe nosso Aplicativo" id="Aplicativo"></i>
+                    </a>
+                    <a href="#" class="me-4">
+                        <i class="fab fa-facebook"><img src="../Icons e Imagens/Icons/facebook (3).png" title="Nos siga no Facebook" class="Redes"
+                                alt="Acessar nosso facebook"></i>
+                    </a>
+                    <a href="#" class="me-4">
+                        <i class="fab fa-X"><img src="../Icons e Imagens/Icons/twitter.png" title="Nos siga no X" class="Redes"
+                                alt="Acessar nosso X"></i>
+                    </a>
+                    <a href="#" class="me-4">
+                        <i class="fab fa-instagram">
+                            <source><img src="../Icons e Imagens/Icons/instagram (1).png" title="Nos siga no Instagram" class="Redes"
+                                alt="Acessar nosso instagram">
+                        </i>
+                    </a>
+                    <a href="#" class="text-white me-4">
+                        <i class="fab fa-whatsapp"><img src="../Icons e Imagens/Icons/whatsapp.png" title="Entre em contato no whatsapp" class="Redes"
+                                alt="Acessar nosso whatsapp"></i>
+                    </a>
+                </div>
+                <!-- Right -->
+            </section>
+            <!-- Section: Social media -->
+
+            <!-- Section: Links  -->
+            <section class="">
+                <div class="container text-center text-md-start mt-5">
+                    <!-- Grid row -->
+                    <div class="row mt-3">
+                        <!-- Grid column -->
+                        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                            <!-- Content -->
+                            <h6 class="text-uppercase fw-bold">Company name</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                Here you can use rows and columns to organize your footer
+                                content. Lorem ipsum dolor sit amet, consectetur adipisicing
+                                elit.
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Products</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                <a href="#!" class="text-dark">MDBootstrap</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">MDWordPress</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">BrandFlow</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Bootstrap Angular</a>
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Useful links</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                <a href="#!" class="text-dark">Your Account</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Become an Affiliate</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Shipping Rates</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Help</a>
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Contact</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto"
+                                style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p><i class="fas fa-home mr-3"></i> São Paulo, SP São Paulo, BR</p>
+                            <p><i class="fas fa-envelope mr-3"></i> sannus@gmail.com</p>
+                            <p><i class="fas fa-phone mr-3"></i> + 55 11 4002-8922</p>
+                            <p><i class="fas fa-print mr-3"></i> <a href="https://github.com/OtavioCarmo7/DS-Turma1-PI_SistemaFarmacia">Nosso github</a></p>
+                        </div>
+                        <!-- Grid column -->
+                    </div>
+                    <!-- Grid row -->
+                </div>
+            </section>
+            <!-- Section: Links  -->
+
+            <!-- Copyright -->
+            <div class="text-center p-3 copyright">
+                © 2026 Copyright:
+                <a>Sannus</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

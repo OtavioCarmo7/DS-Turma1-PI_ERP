@@ -1,0 +1,49 @@
+Criar procedures para:
+* Observação:
+- Não precisa criar cada procedure de tabela, pode ser do jeito que estou fazendo
+
+================================ INSERT ================================
+* Fornecedor
+- Criar novo fornecedor, adicionando automaticamente o telefone na tabela de telefone do fornecedor: Ok
+
+* Usuário / Cliente / Funcionário
+- Criar novo funcionário utilizando as informações da tabela usuário e adicionando as demais variáveis adicionando 
+automaticamente o telefone na tabela de telefone do funcionário: OK
+- Criar novo cliente utilizando as informações da tabela usuário e adicionando as demais variáveis, 
+adicionando automaticamente o telefone na tabela de telefone do cliente: Ok
+- Criar novo endereço Usuario e Fornecedor: Ok
+
+* Produto, Compra, Lote, Estoque, ProdutoVenda, Venda, Forma de Pagamento
+- Criar procedure de compra de medicamentos adicionando direto no estoque e o lote do Produto: Ok
+- Criar procedure de venda já adicionando as informações dos produtos e do Pagamento: Ok
+- Criar novo Produto: ok
+
+================================ SELECT ================================
+- Buscar produtos por id (Combo box no sistema final): Ok
+- Buscar conta do cliente como usuario: ok
+- Buscar informações cliente como admin: ok
+- Buscar informações venda: ok
+
+================================ UPDATE ================================
+- Editar produtos por id (Combo box no sistema final): Ok
+- Editar conta do cliente como usuario: ok
+- Editar informações cliente como admin: ok
+- Editar informações venda: ok
+
+================================ DELETE ================================
+- Deletar produtos por id (Combo box no sistema final): Ok
+- Deletar conta do cliente como usuario: ok
+- Deletar informações cliente como admin: ok
+===========================================================================================================================
+
+Análise DCU (Diagrama de caso de uso)
+
+- Fazer cadastro de novos clientes: Procedure Banco de dados (ok)
+- Verificar a disponiblidades de produtos no estoque: Procedure Banco de dados (ok)
+- Registra a compra realizada no banco: Procedure Banco de dados (ok)
+- Realiza compra de produtos: Procedure Banco de dados (ok, realizarVendaProduto)
+- Manter estoque: Procedure banco de dados (ok, comprarProdutosEstoque)
+- Visualizar histórico de vendas: Procedure banco de dados (ok)
+
+- Manter funcionarios e usuários: Procedure banco de dados (falta editar, excluir)
+- Manter cliente: Procedures banco de dados (falta editar, excluir)
