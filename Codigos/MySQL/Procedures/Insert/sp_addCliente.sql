@@ -43,7 +43,7 @@ BEGIN
 		BEGIN 
 			
 			-- Se existir ele manda a mensagem e da um rollback tran
-			RAISERROR('Usuario já cadastrado.', 16, 1, @email);
+			RAISERROR('Email já cadastrado.', 16, 1, @email);
 		
 			ROLLBACK TRAN
 
@@ -62,9 +62,6 @@ BEGIN
 			@data_Nasc = @data_Nasc,
 			@telefone = @telefone,
 			@idUsuario = @ultimo_Id OUTPUT;
-		
-		INSERT INTO Tbl_Telefone_Usuario (id_Usuario, telefone) VALUES 
-					(@ultimo_Id, @telefone);
 
 		INSERT INTO Tbl_Cliente(id_Usuario, aceita_Ofertas) VALUES
 				(@ultimo_Id, @aceitaOfertas);

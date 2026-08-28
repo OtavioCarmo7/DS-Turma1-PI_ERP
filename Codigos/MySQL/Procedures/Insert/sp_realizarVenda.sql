@@ -85,13 +85,9 @@ BEGIN
 				FROM #ItensTemp
 				WHERE linha = @linhaAtual
 
-				-- Procedure que adiciona os produtos comprados pelo cliente
-				EXEC sp_AddProdutoVenda
-					@id_Venda = @id_Venda,
-					@id_Produto = @id_Produto,
-					@qnt = @qnt,
-					@valor_Unitario = @valor_Unitario,
-					@id_Produto_Venda = @id_Produto_Venda OUTPUT;
+				-- Insert dos produtos comprados pelo cliente
+				INSERT INTO Tbl_Produto_Venda (id_Venda, id_Produto, qnt, valor_Unitario) VALUES
+					(@id_Venda, @id_Produto, @qnt, @valor_Unitario);
 					
 				-- Adiciona 1 índice à variável para continuar o loop
 				SET @linhaAtual += 1;
@@ -102,12 +98,8 @@ BEGIN
 
 			
 			-- Procedure que adiciona as informações de pagamento da venda
-			EXEC sp_AddPagamentoVenda
-				@id_Venda = @id_Venda,
-				@forma_Pagamento = @forma_Pagamento,
-				@valor_Pago = @valor_Pago, 
-				@valor_Recebido = @valor_Recebido, 
-				@situacao = @situacao;
+			INSERT INTO Tbl_Pagamento_Venda (id_Venda, forma_Pagamento, valor_Pago, valor_Recebido, situacao) VALUES
+				(@id_Venda, @forma_Pagamento, @valor_Pago, @valor_Recebido, @situacao);
 
 			PRINT 'Venda realizada com sucesso!';
 

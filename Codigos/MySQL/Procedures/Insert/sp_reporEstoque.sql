@@ -62,6 +62,9 @@ BEGIN
 			@id_Lote INT;
 
 			-- Inicia o loop para ler todas as linhas da tabela temporária
+			DECLARE @ultimo_Id_produtoCompra INT;
+			DECLARE @ultimo_Id_lote INT;
+
 			WHILE @linhaAtual <= @totalLinhas
 			BEGIN
 				SELECT 
@@ -74,26 +77,21 @@ BEGIN
 				FROM #ItensTemp
 				WHERE linha = @linhaAtual
 
-				-- Procedure que adiciona os produtos comprados com o fornecedor
-				EXEC sp_AddProdutoCompra
-					@id_Compra = @id_Compra,
-					@id_Produto = @id_Produto,
-					@qnt = @qnt,
-					@valor_Unitario = @valor_Unitario,
-					@id_Produto_Compra = @id_Produto_Compra OUTPUT;
+				-- Insert de produtos da compra
+				INSERT INTO Tbl_Produto_Compra (id_Compra, id_Produto, qnt, valor_Unitario) VALUES
+					(@id_Compra, @id_Produto, @qnt, @valor_Unitario);
+
+					SET @ultimo_Id_produtoCompra = SCOPE_IDENTITY();
 
 				-- Procedure que adiciona as informações dos lotes recebidos pelo fornecedor
-				EXEC sp_AddLote
-					@id_Produto_Compra = @id_Produto_Compra,
-					@cod = @cod,
-					@qnt = @qnt,
-					@validade = @validade,
-					@id_Lote = @id_Lote OUTPUT;
+				INSERT INTO Tbl_Lote (id_Produto_Compra, cod, qnt, validade) VALUES
+					(@ultimo_Id_produtoCompra, @cod, @qnt, @validade);
+					
+					SET @ultimo_Id_Lote = SCOPE_IDENTITY();
 
 				-- Procedure que adiciona os lotes dos produtos no estoque da farmácia
-				EXEC sp_AddEstoque
-					@id_Lote = @id_Lote,
-					@posicao = @posicao;
+				INSERT INTO Tbl_Estoque (id_Lote, posicao) VALUES
+					(@ultimo_Id_lote, @posicao);
 
 				-- Adiciona 1 índice à variável para continuar o loop
 				SET @linhaAtual += 1;
