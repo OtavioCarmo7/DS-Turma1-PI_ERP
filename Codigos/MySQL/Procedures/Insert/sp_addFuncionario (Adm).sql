@@ -1,92 +1,75 @@
 -- ================================================
 -- Stored Procedure: sp_AddFuncionario
--- Descrição: Procedure para inserção de novos funcionarios
--- Autor: Otávio Augusto Canola do Carmo
--- Data Criação: 28/06/2026
+-- DescriÃ§Ã£o: Procedure para inserÃ§Ã£o de novos funcionarios
+-- Autor: OtÃ¡vio Augusto Canola do Carmo
+-- Data CriaÃ§Ã£o: 28/06/2026
 -- ================================================
 
--- Criação Procedure
-CREATE OR ALTER PROCEDURE sp_AddFuncionario
-	-- Usuario
-	@nome VARCHAR(255),
-	@cpf CHAR(11),
-	@email VARCHAR(255),
-	@senha VARCHAR(25),
-	@data_Nasc DATE,
+-- Altera temporariamente o caractere finalizador de comandos do MySQL (que padrÃ£o Ã© ;) para //
+DELIMITER //
+
+-- Remove a procedure sp_AddFuncionario do banco de dados, caso ela jÃ¡ exista.
+DROP PROCEDURE IF EXISTS sp_AddFuncionario //
+
+-- CriaÃ§Ã£o Procedure
+CREATE PROCEDURE sp_AddFuncionario
+(
+    -- Usuario
+	IN p_nome VARCHAR(255),
+	IN p_cpf CHAR(11),
+	IN p_email VARCHAR(255),
+	IN p_senha VARCHAR(25),
+	IN p_data_Nasc DATE,
 
 	-- Funcionario
-	@telefone CHAR(14),
-	@data_Admissao DATE,
-	@cargo VARCHAR(50),
-	@situacao VARCHAR(20)
+	IN p_telefone CHAR(14),
+	IN p_data_Admissao DATE,
+	IN p_cargo VARCHAR(50),
+	IN p_situacao VARCHAR(20)
+)
 
-AS
 BEGIN
 
-	-- SET NOCOUNT ON:
-    -- Evita mensagens automáticas "X linhas afetadas"
-    -- Ajuda em procedures (menos “poluição” no resultado)
-	SET NOCOUNT ON;
+	/* Cria uma variÃ¡vel local v_existe e v_ultimo_id, v_existe inicializada com 0, 
+    usada para guardar o resultado da checagem de e-mail duplicado, e para guardar o ultimo id criado para o usuÃ¡rio*/
+	DECLARE v_existe INT DEFAULT 0;
+	DECLARE v_ultimo_Id INT;
 
-	-- Começo TRY
-	BEGIN TRY 
-		
-		BEGIN TRAN
+	-- Handler de erro
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+		RESIGNAL;
+	END;
 
-		-- Verifica se existe já existe o usuário com o email cadastrado
-		IF EXISTS (
-			SELECT 1
-			FROM Tbl_Usuario WITH (UPDLOCK, HOLDLOCK)
-			WHERE email = @email
-		)
-
-		BEGIN 
+	START TRANSACTION;
 			
-			-- Se existir ele manda a mensagem e da um rollback tran
-			RAISERROR('Funcionário já cadastrado.', 16, 1, @cpf);
+			-- Verifica duplicaÃ§Ã£o bloqueando a linha para alteraÃ§Ã£o
+			SELECT COUNT(1) INTO v_existe
+			FROM Tbl_Usuario
+			WHERE email = p_email
+			FOR UPDATE; /* Isso impede que duas requisiÃ§Ãµes simultÃ¢neas cadastrem o mesmo e-mail 
+						exatamente ao mesmo tempo (Race Condition) */
+
+			IF v_existe > 0 THEN
+				SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Email jÃ¡ cadastrado.';
+			END IF;
 		
-			ROLLBACK TRAN
+			-- Chama a procedure responsÃ¡vel por adicionar o usuÃ¡rio e telefone
+			CALL sp_AddUsuario(p_nome, p_cpf, p_email, p_senha, p_data_Nasc, p_telefone, v_ultimo_Id);
 
-			RETURN 
-		END
-		
-		-- Declara a variável do último id adicionado
-		DECLARE @ultimo_Id INT;
+			-- Se teve um elemento adicionado ele insere o telefone e adiciona como funcionario
+			IF ROW_COUNT() = 1 THEN
 
-		-- Faz a inserção do usuário
-		INSERT INTO Tbl_Usuario(nome, cpf, email, senha, data_Nasc) VALUES
-		(@nome, @cpf, @email, @senha, @data_Nasc);
+				INSERT INTO Tbl_Funcionario (id_Usuario, data_Admissao, cargo, situacao) VALUES
+					(v_ultimo_id, p_data_Admissao, p_cargo, p_situacao);
 
-		-- Define o valor do último id na variável que criamos
-		SET @ultimo_Id = SCOPE_IDENTITY();
+				COMMIT;
+			
+            ELSE
+				ROLLBACK;
+				SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Falha ao adicionar o funcionÃ¡rio.';
+			END IF;
+END //
 
-		-- Se teve um elemento adicionado ele insere o telefone e adiciona como funcionario
-		IF @@ROWCOUNT = 1
-		BEGIN 
-		
-			INSERT INTO Tbl_Telefone_Usuario (id_Usuario, telefone) VALUES 
-					(@ultimo_Id, @telefone);
-
-			INSERT INTO Tbl_Funcionario (id_Usuario, data_Admissao, cargo, situacao) VALUES
-				(@ultimo_Id, @data_Admissao, @cargo, @situacao);
-
-			PRINT 'Funcionário adicionado com sucesso!';
-
-			COMMIT TRAN;
-
-		END
-
-	END TRY
-
-	-- Começo CATCH
-	BEGIN CATCH
-
-		IF @@TRANCOUNT > 0 
-			ROLLBACK TRAN
-
-		DECLARE @Mensagem NVARCHAR(4000) = ERROR_MESSAGE();
-
-		RAISERROR(@Mensagem, 16, 1)
-	END CATCH
-END
-GO
+DELIMITER ;

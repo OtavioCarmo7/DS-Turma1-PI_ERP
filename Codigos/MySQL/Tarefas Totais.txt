@@ -1,3 +1,13 @@
+Tarefas Totais:
+- Transformar as procedures e banco para estrutura MySQL
+[ sp_addFornecedor: pendente
+[ sp_realizarVenda: pendente
+[ sp_reporEstoque: pendente
+[ sp_addUsuario: Ok
+[ sp_addCliente: Ok
+[ sp_addFuncionario: Ok
+[ banco: Ok
+
 Criar procedures para:
 * Observação:
 - Não precisa criar cada procedure de tabela, pode ser do jeito que estou fazendo
@@ -44,6 +54,3 @@ Análise DCU (Diagrama de caso de uso)
 - Realiza compra de produtos: Procedure Banco de dados (ok, realizarVendaProduto)
 - Manter estoque: Procedure banco de dados (ok, comprarProdutosEstoque)
 - Visualizar histórico de vendas: Procedure banco de dados (ok)
-
-- Manter funcionarios e usuários: Procedure banco de dados (falta editar, excluir)
-- Manter cliente: Procedures banco de dados (falta editar, excluir)

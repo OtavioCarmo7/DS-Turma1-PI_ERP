@@ -1,44 +1,29 @@
 -- ================================= BANCO DE DADOS =================================
-CREATE DATABASE dbSannus;
+CREATE DATABASE IF NOT EXISTS dbSannus; -- Cria o banco se n√£o existit ainda dbSannus
 
 USE dbSannus;
 
 -- ================================= APAGAR TABELAS =================================
 
-TRUNCATE TABLE Tbl_Fornecedor
-TRUNCATE TABLE Tbl_Telefone_Fornecedor
-TRUNCATE TABLE Tbl_Usuario
-TRUNCATE TABLE Tbl_Telefone_Usuario
-TRUNCATE TABLE Tbl_Cliente
-TRUNCATE TABLE Tbl_Funcionario
-TRUNCATE TABLE Tbl_Endereco
-TRUNCATE TABLE Tbl_Fornecedor_Endereco
-TRUNCATE TABLE Tbl_Telefone_Fornecedor
-TRUNCATE TABLE Tbl_Cliente_Endereco
-TRUNCATE TABLE Tbl_Produto
-TRUNCATE TABLE Tbl_Compra
-TRUNCATE TABLE Tbl_Produto_Compra
-TRUNCATE TABLE Tbl_Lote
-TRUNCATE TABLE Tbl_Estoque
-TRUNCATE TABLE Tbl_Venda
-TRUNCATE TABLE Tbl_Pagamento_Venda
-TRUNCATE TABLE Tbl_Produto_Venda
+DROP TABLE IF EXISTS Tbl_Produto_Venda;
+DROP TABLE IF EXISTS Tbl_Pagamento_Venda;
+DROP TABLE IF EXISTS Tbl_Venda;
+DROP TABLE IF EXISTS Tbl_Estoque;
+DROP TABLE IF EXISTS Tbl_Lote;
+DROP TABLE IF EXISTS Tbl_Produto_Compra;
+DROP TABLE IF EXISTS Tbl_Compra;
+DROP TABLE IF EXISTS Tbl_Produto;
+DROP TABLE IF EXISTS Tbl_Cliente_Endereco;
+DROP TABLE IF EXISTS Tbl_Fornecedor_Endereco;
+DROP TABLE IF EXISTS Tbl_Endereco;
+DROP TABLE IF EXISTS Tbl_Funcionario;
+DROP TABLE IF EXISTS Tbl_Cliente;
+DROP TABLE IF EXISTS Tbl_Telefone_Usuario;
+DROP TABLE IF EXISTS Tbl_Usuario;
+DROP TABLE IF EXISTS Tbl_Telefone_Fornecedor;
+DROP TABLE IF EXISTS Tbl_Fornecedor;
 
--- Remove TODAS as foreign keys de TODAS as tabelas (resolve o problema de ordem/dependÍncia)
-DECLARE @sqlFK NVARCHAR(MAX) = '';
-SELECT @sqlFK += 'ALTER TABLE ' + QUOTENAME(OBJECT_SCHEMA_NAME(parent_object_id)) 
-	+ '.' + QUOTENAME(OBJECT_NAME(parent_object_id)) 
-	+ ' DROP CONSTRAINT ' + QUOTENAME(name) + ';' + CHAR(13)
-FROM sys.foreign_keys;
-EXEC sp_executesql @sqlFK;
-GO
-
--- Agora sim, remove todas as tabelas (sem FK, a ordem n„o importa mais)
-DECLARE @sqlTab NVARCHAR(MAX) = '';
-SELECT @sqlTab += 'DROP TABLE ' + QUOTENAME(name) + ';' + CHAR(13)
-FROM sys.tables;
-EXEC sp_executesql @sqlTab;
-GO;
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- ================================= TABELAS =================================
 
@@ -46,7 +31,7 @@ GO;
 
 CREATE TABLE Tbl_Fornecedor 
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(255) NOT NULL,
 	cnpj CHAR(14) NOT NULL,
 	email VARCHAR(255) UNIQUE NOT NULL
@@ -54,9 +39,9 @@ CREATE TABLE Tbl_Fornecedor
 
 CREATE TABLE Tbl_Telefone_Fornecedor
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Fornecedor INT NOT NULL,
-	telefone VARCHAR(14)
+	telefone VARCHAR(14),
 	FOREIGN KEY (id_Fornecedor) REFERENCES Tbl_Fornecedor(id)
 );
 
@@ -64,45 +49,45 @@ CREATE TABLE Tbl_Telefone_Fornecedor
 
 CREATE TABLE Tbl_Usuario 
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(255) NOT NULL,
 	cpf CHAR(11) NOT NULL,
 	email VARCHAR(255) UNIQUE NOT NULL,
 	senha VARCHAR(25) NOT NULL,
-	data_Nasc DATE NOT NULL,
+	data_Nasc DATE NOT NULL
 );
 
 CREATE TABLE Tbl_Telefone_Usuario
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Usuario INT NOT NULL,
-	telefone CHAR(14) NOT NULL
+	telefone CHAR(14) NOT NULL,
 	FOREIGN KEY (id_Usuario) REFERENCES Tbl_Usuario(id)
 );
 
 CREATE TABLE Tbl_Cliente 
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Usuario INT NOT NULL,
-	aceita_Ofertas BIT
+	aceita_Ofertas BIT,
 	FOREIGN KEY (id_Usuario) REFERENCES Tbl_Usuario(id)
 );
 
 CREATE TABLE Tbl_Funcionario 
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Usuario INT NOT NULL,
 	data_Admissao DATE NOT NULL,
 	cargo VARCHAR(50) NOT NULL,
-	situacao VARCHAR(20) NOT NULL CONSTRAINT constSituacao CHECK (situacao IN ('Ativo', 'Afastado', 'Demitido')),
+	situacao VARCHAR(20) NOT NULL CHECK (situacao IN ('Ativo', 'Afastado', 'Demitido')),
 	FOREIGN KEY (id_Usuario) REFERENCES Tbl_Usuario(id)
 );
 
--- TABELAS EndereÁo, Fornecedor_EndereÁo, Cliente_EndereÁo
+-- TABELAS Endere√ßo, Fornecedor_Endere√ßo, Cliente_Endere√ßo
 
 CREATE TABLE Tbl_Endereco
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	cep VARCHAR(9) NOT NULL,
 	logradouro VARCHAR(50) NOT NULL,
 	bairro VARCHAR(50) NOT NULL,
@@ -112,7 +97,7 @@ CREATE TABLE Tbl_Endereco
 
 CREATE TABLE Tbl_Fornecedor_Endereco 
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Fornecedor INT NOT NULL,
 	id_Endereco INT NOT NULL,
 	numero VARCHAR(5) NOT NULL,
@@ -124,7 +109,7 @@ CREATE TABLE Tbl_Fornecedor_Endereco
  
 CREATE TABLE Tbl_Cliente_Endereco
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Endereco INT NOT NULL,
 	id_Cliente INT NOT NULL,
 	numero VARCHAR(5) NOT NULL,
@@ -138,7 +123,7 @@ CREATE TABLE Tbl_Cliente_Endereco
 
 CREATE TABLE Tbl_Produto
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(100) NOT NULL,
 	descricao VARCHAR(255) NOT NULL,
 	preco DECIMAL(7,2) NOT NULL,
@@ -147,7 +132,7 @@ CREATE TABLE Tbl_Produto
 
 CREATE TABLE Tbl_Compra
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Fornecedor INT NOT NULL,
 	data_Compra DATE NOT NULL,
 	total_Compra DECIMAL (10,2),
@@ -156,7 +141,7 @@ CREATE TABLE Tbl_Compra
 
 CREATE TABLE Tbl_Produto_Compra
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Produto INT NOT NULL,
 	id_Compra INT NOT NULL,
 	qnt INT NOT NULL,
@@ -167,7 +152,7 @@ CREATE TABLE Tbl_Produto_Compra
 
 CREATE TABLE Tbl_Lote
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Produto_Compra INT NOT NULL,
 	cod VARCHAR(10) NOT NULL,
 	qnt INT NOT NULL,
@@ -177,7 +162,7 @@ CREATE TABLE Tbl_Lote
 
 CREATE TABLE Tbl_Estoque
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Lote INT NOT NULL,
 	posicao VARCHAR(30) NOT NULL,
 	FOREIGN KEY (id_Lote) REFERENCES TBL_Lote(id)
@@ -185,7 +170,7 @@ CREATE TABLE Tbl_Estoque
 
 CREATE TABLE Tbl_Venda
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Cliente INT NOT NULL,
 	id_Funcionario INT NOT NULL,
 	nfe VARCHAR(100) NOT NULL,
@@ -198,19 +183,19 @@ CREATE TABLE Tbl_Venda
 
 CREATE TABLE Tbl_Pagamento_Venda
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Venda INT NOT NULL,
 	forma_Pagamento VARCHAR(9) NOT NULL,
 	valor_Pago DECIMAL (10,2) NOT NULL,-- Quanto essa forma de pagamento supriu do valor da venda
-	valor_Recebido DECIMAL(10,2), -- SÛ preenchido quando 'forma_Pagamento' = 'dinheiro'
-	troco DECIMAL(10,2), -- troco = valor_Recebido - valor_Pago, sÛ calculado quando valor_Recebido n„o È nulo
+	valor_Recebido DECIMAL(10,2), -- S√≥ preenchido quando 'forma_Pagamento' = 'dinheiro'
+	troco DECIMAL(10,2), -- troco = valor_Recebido - valor_Pago, s√≥ calculado quando valor_Recebido n√£o √© nulo
 	situacao VARCHAR(8) NOT NULL,
 	FOREIGN KEY (id_Venda) REFERENCES Tbl_Venda(id)
 );
 
 CREATE TABLE Tbl_Produto_Venda
 (
-	id INT PRIMARY KEY IDENTITY,
+	id INT PRIMARY KEY AUTO_INCREMENT,
 	id_Venda INT NOT NULL,
 	id_Produto INT NOT NULL,
 	qnt INT NOT NULL,
@@ -221,8 +206,8 @@ CREATE TABLE Tbl_Produto_Venda
 
 -- ================================= TYPES =================================
 
-/* Tabelas tempor·rias que criamos para usar nas procedures, s„o utilizadas para quando temos um processo vari·vel,
-ou seja, um cliente que pode comprar v·rios produtos, e n„o algo fixo, onde o cliente sÛ pode colocar um cpf, por
+/* Tabelas tempor√°rias que criamos para usar nas procedures, s√£o utilizadas para quando temos um processo vari√°vel,
+ou seja, um cliente que pode comprar v√°rios produtos, e n√£o algo fixo, onde o cliente s√≥ pode colocar um cpf, por
 exemplo */
 
 CREATE TYPE Tbl_Type_ProdutoCompra AS TABLE
@@ -242,27 +227,6 @@ CREATE TYPE Tbl_Type_ProdutoVenda AS TABLE
 	qnt INT NOT NULL,
 	valor_Unitario DECIMAL(8,2) NOT NULL
 )
-
--- ================================= USU¡RIOS e LOGINS =================================
-
--- LOGIN
-USE master;
-
-CREATE LOGIN loginSannus
-WITH PASSWORD = 'Sannus@PI',
-CHECK_POLICY = OFF,
-DEFAULT_DATABASE = dbSannus,
-DEFAULT_LANGUAGE = Portuguese;
-
--- USU¡RIO
-USE dbSannus;
-
-CREATE USER userSannus FOR LOGIN loginSannus;
-
-ALTER ROLE db_datareader ADD MEMBER userSannus;
-ALTER ROLE db_datawriter  ADD MEMBER userSannus;
-
-GRANT EXECUTE TO userSannus;
 
 -- ================================= TESTANDO PROCEDURES =================================
 
@@ -300,19 +264,18 @@ SELECT * FROM Tbl_Estoque ORDER BY id DESC;
 
 -- == AddCliente ==
 
-EXEC sp_AddCliente 'Ot·vio', '99999999999', 'otavio.augusto@gmail.com', 'Ota_01', '02/10/2006', '11992181212', 'true'
+CALL sp_AddCliente ('Ot√°vio', '99999999999', 'otavio.augusto@gmail.com', 'Ota_01', '02/10/2006', '11992181212', 'true');
 
-SELECT * FROM Tbl_Cliente
-SELECT * FROM Tbl_Usuario
-SELECT * FROM Tbl_Telefone_Usuario
+SELECT * FROM Tbl_Cliente;
+SELECT * FROM Tbl_Usuario;
+SELECT * FROM Tbl_Telefone_Usuario;
 
 -- == realizarVenda ==
 
--- Confirme que j· existe fornecedor/produto/cliente/funcion·rio cadastrados antes de testar
+-- Confirme que j√° existe fornecedor/produto/cliente/funcion√°rio cadastrados antes de testar
 SELECT * FROM Tbl_Produto;
 SELECT * FROM Tbl_Cliente;
 SELECT * FROM Tbl_Funcionario;
-GO
 
 -- ===== TESTE 1: venda com 2 produtos, pagamento em dinheiro com troco =====
 DECLARE @itens Tbl_Type_ProdutoVenda;
@@ -321,17 +284,19 @@ INSERT INTO @itens (id_Produto, qnt, valor_Unitario)
 VALUES 
 	(1, 2, 12.50)
 
--- … necess·rio criar a procedure de criar cliente, produto e funcionario
-EXEC sp_realizarVenda
-	@id_Cliente = 1,
-	@id_Funcionario = 3,
-	@nfe = 'NFE-0001',
-	@canal_Venda = 'presencial',
-	@itens = @itens,
-	@forma_Pagamento = 'dinheiro',
-	@valor_Pago = 50.90,
-	@valor_Recebido = 60.00,
-	@situacao = 'pago';
+-- √â necess√°rio criar a procedure de criar cliente, produto e funcionario
+CALL sp_realizarVenda 
+(
+	1,
+	3,
+	'NFE-0001',
+	'presencial',
+	@itens,
+	'dinheiro',
+	50.90,
+	60.00,
+	'pago'
+);
 
 -- Confere os resultados
 SELECT * FROM Tbl_Venda ORDER BY id DESC;
@@ -339,7 +304,7 @@ SELECT * FROM Tbl_Produto_Venda ORDER BY id DESC;
 SELECT * FROM Tbl_Pagamento_Venda ORDER BY id DESC;
 GO
 
--- ===== TESTE 2: pagamento no cart„o (sem troco) =====
+-- ===== TESTE 2: pagamento no cart√£o (sem troco) =====
 DECLARE @itens2 Tbl_Type_ProdutoVenda;
 
 INSERT INTO @itens2 (id_Produto, qnt, valor_Unitario)
@@ -360,7 +325,7 @@ SELECT * FROM Tbl_Venda ORDER BY id DESC;
 SELECT * FROM Tbl_Pagamento_Venda ORDER BY id DESC;
 GO
 
--- ===== TESTE 3: erro proposital ó valor recebido menor que o valor pago =====
+-- ===== TESTE 3: erro proposital ¬ó valor recebido menor que o valor pago =====
 DECLARE @itens3 Tbl_Type_ProdutoVenda;
 INSERT INTO @itens3 (id_Produto, qnt, valor_Unitario) VALUES (1, 1, 12.50);
 

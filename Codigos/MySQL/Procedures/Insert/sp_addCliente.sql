@@ -1,86 +1,67 @@
 -- ================================================
 -- Stored Procedure: sp_AddCliente
--- Descrição: Procedure para inserção de novos Clientes
--- Autor: Otávio Augusto Canola do Carmo
--- Data Criação: 28/06/2026
+-- DescriÃ§Ã£o: Procedure para inserÃ§Ã£o de novos Clientes
+-- Autor: OtÃ¡vio Augusto Canola do Carmo
+-- Data CriaÃ§Ã£o: 28/06/2026
 -- ================================================
 
--- Criação Procedure
-CREATE OR ALTER PROCEDURE sp_AddCliente
-	-- Usuario
-	@nome VARCHAR(255),
-	@cpf CHAR(11),
-	@email VARCHAR(255),
-	@senha VARCHAR(25),
-	@data_Nasc DATE,
+-- Altera temporariamente o caractere finalizador de comandos do MySQL (que padrÃ£o Ã© ;) para //
+DELIMITER //
 
-	-- Telefone Usuário
-	@telefone CHAR(14),
+-- Remove a procedure sp_AddCliente do banco de dados, caso ela jÃ¡ exista.
+DROP PROCEDURE IF EXISTS sp_AddCliente//
+
+-- CriaÃ§Ã£o Procedure
+CREATE PROCEDURE sp_AddCliente
+(
+	-- Usuario
+	IN p_nome VARCHAR(255),
+	IN p_cpf CHAR(11),
+	IN p_email VARCHAR(255),
+	IN p_senha VARCHAR(25),
+	IN p_data_Nasc DATE,
+    
+	-- Telefone UsuÃ¡rio
+	IN p_telefone CHAR(14),
 
 	-- Cliente
-	@aceitaOfertas BIT
+	IN p_aceitaOfertas BIT
+)
 
-AS
 BEGIN
 
-	-- SET NOCOUNT ON:
-    -- Evita mensagens automáticas "X linhas afetadas"
-    -- Ajuda em procedures (menos “poluição” no resultado)
-	SET NOCOUNT ON;
+	/* Cria uma variÃ¡vel local v_existe e v_ultimo_id, v_existe inicializada com 0, 
+    usada para guardar o resultado da checagem de e-mail duplicado, e para guardar o ultimo id criado para o usuÃ¡rio*/
+	DECLARE v_existe INT DEFAULT 0;
+	DECLARE v_ultimo_Id INT;
 
-	-- Começo TRY
-	BEGIN TRY 
-		
-		BEGIN TRAN
+	-- Handler de erro
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		ROLLBACK;
+		RESIGNAL;
+	END;
 
-		-- Verifica se existe já existe o usuário com o email cadastrado
-		IF EXISTS (
-			SELECT 1
-			FROM Tbl_Usuario WITH (UPDLOCK, HOLDLOCK)
-			WHERE email = @email
-		)
+	START TRANSACTION;
 
-		BEGIN 
-			
-			-- Se existir ele manda a mensagem e da um rollback tran
-			RAISERROR('Email já cadastrado.', 16, 1, @email);
-		
-			ROLLBACK TRAN
+	-- Verifica duplicaÃ§Ã£o bloqueando a linha para alteraÃ§Ã£o
+	SELECT COUNT(1) INTO v_existe
+	FROM Tbl_Usuario
+	WHERE email = p_email
+	FOR UPDATE; /* Isso impede que duas requisiÃ§Ãµes simultÃ¢neas cadastrem o mesmo e-mail 
+    exatamente ao mesmo tempo (Race Condition) */
 
-			RETURN 
-		END
-		
-		-- Declara a variável do último id adicionado
-		DECLARE @ultimo_Id INT;
+	IF v_existe > 0 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Email jÃ¡ cadastrado.';
+	END IF;
 
-		-- Faz a inserção do usuário e coloca o id criado na variável que declaramos
-		EXEC sp_AddUsuario 
-			@nome = @nome,
-			@cpf = @cpf,
-			@email = @email,
-			@senha = @senha,
-			@data_Nasc = @data_Nasc,
-			@telefone = @telefone,
-			@idUsuario = @ultimo_Id OUTPUT;
+	-- Chama a procedure responsÃ¡vel por adicionar o usuÃ¡rio e telefone
+	CALL sp_AddUsuario(p_nome, p_cpf, p_email, p_senha, p_data_Nasc, p_telefone, v_ultimo_Id);
 
-		INSERT INTO Tbl_Cliente(id_Usuario, aceita_Ofertas) VALUES
-				(@ultimo_Id, @aceitaOfertas);
+	INSERT INTO Tbl_Cliente (id_Usuario, aceita_Ofertas) 
+	VALUES (v_ultimo_Id, p_aceitaOfertas);
 
-		PRINT 'Cliente adicionado com sucesso!';
+	COMMIT;
+END //
 
-		COMMIT TRAN;
-
-	END TRY
-
-	-- Começo CATCH
-	BEGIN CATCH
-
-		IF @@TRANCOUNT > 0 
-			ROLLBACK TRAN
-
-		DECLARE @Mensagem NVARCHAR(4000) = ERROR_MESSAGE();
-
-		RAISERROR(@Mensagem, 16, 1)
-	END CATCH
-END
-GO
+DELIMITER ;

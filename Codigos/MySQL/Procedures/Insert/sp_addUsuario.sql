@@ -1,82 +1,74 @@
 -- ================================================
 -- Stored Procedure: sp_AddUsuario
--- DescriÁ„o: Procedure para inserÁ„o de novos Usuarios
--- Autor: Ot·vio Augusto Canola do Carmo
--- Data CriaÁ„o: 28/06/2026
+-- Descri√ß√£o: Procedure para inser√ß√£o de novos Usuarios
+-- Autor: Ot√°vio Augusto Canola do Carmo
+-- Data Cria√ß√£o: 28/06/2026
 -- ================================================
 
--- CriaÁ„o Procedure
-ALTER PROCEDURE sp_AddUsuario
-	-- Usuario
-	@nome VARCHAR(255),
-	@cpf CHAR(11),
-	@email VARCHAR(255),
-	@senha VARCHAR(25),
-	@data_Nasc DATE,
-	@telefone CHAR(14),
-	@idUsuario INT = NULL OUTPUT 
+-- Altera temporariamente o caractere finalizador de comandos do MySQL (que padr√£o √© ;) para //
+DELIMITER //
 
-AS
+-- Remove a procedure sp_AddUsuario do banco de dados, caso ela j√° exista.
+DROP PROCEDURE IF EXISTS sp_AddUsuario//
+
+-- Cria√ß√£o Procedure
+CREATE PROCEDURE sp_AddUsuario 
+(
+	-- IN: Define os par√¢metros de entrada (dados que a aplica√ß√£o envia para a procedure).
+
+	-- OUT: Define um par√¢metro de sa√≠da. Ele devolver√° para quem chamou a procedure o c√≥digo ID gerado no cadastro.
+    
+	IN p_nome VARCHAR(255),
+	IN p_cpf CHAR(11),
+	IN p_email VARCHAR(255),
+	IN p_senha VARCHAR(25),
+	IN p_data_Nasc DATE,
+	IN p_telefone CHAR(14),
+	OUT p_idUsuario INT
+)
 BEGIN
 
-	-- SET NOCOUNT ON:
-    -- Evita mensagens autom·ticas "X linhas afetadas"
-    -- Ajuda em procedures (menos ìpoluiÁ„oî no resultado)
-	SET NOCOUNT ON;
-
-	-- ComeÁo TRY
-	BEGIN TRY 
+	/* Cria uma vari√°vel local v_existe inicializada com 0, 
+    usada para guardar o resultado da checagem de e-mail duplicado. */
+	DECLARE v_existe INT DEFAULT 0;
+    
+	-- Handler de erro
+	DECLARE EXIT HANDLER FOR SQLEXCEPTION  -- √â o tratamento de exce√ß√£o (o equivalente ao CATCH do SQL Server).
+    BEGIN
 		
-		BEGIN TRAN
-
-		-- Verifica se existe j· existe o usu·rio com o email cadastrado
-		IF EXISTS (
-			SELECT 1
-			FROM Tbl_Usuario WITH (UPDLOCK, HOLDLOCK)
-			WHERE email = @email
-		)
-
-		BEGIN 
-			
-			-- Se existir ele manda a mensagem e da um rollback tran
-			RAISERROR('Usuario j· cadastrado.', 16, 1, @email);
+		ROLLBACK;
+        RESIGNAL; -- Repassa a mensagem de erro original para a aplica√ß√£o/back-end tratar.
+	END;
 		
-			ROLLBACK TRAN
+     START TRANSACTION;
 
-			RETURN 
-		END
-		
-		-- Faz a inserÁ„o do usu·rio
-		INSERT INTO Tbl_Usuario(nome, cpf, email, senha, data_Nasc) VALUES
-		(@nome, @cpf, @email, @senha, @data_Nasc);
+	-- Verifica duplica√ß√£o bloqueando a linha para altera√ß√£o
+	SELECT COUNT(1) INTO v_existe
+	FROM Tbl_Usuario
+	WHERE email = p_email
+	FOR UPDATE; /* Isso impede que duas requisi√ß√µes simult√¢neas cadastrem o mesmo e-mail 
+    exatamente ao mesmo tempo (Race Condition) */
 
-		-- Define o valor do ˙ltimo id na vari·vel que criamos
-		SET @idUsuario = SCOPE_IDENTITY();
+	IF v_existe > 0 THEN
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuario j√° cadastrado.'; -- substitui o RAISERROR do SQL Server
+	END IF;
 
-		-- Se teve um elemento adicionado ele insere o telefone
-		IF @@ROWCOUNT = 1
-		BEGIN 
-			INSERT INTO Tbl_Telefone_Usuario(id_Usuario, telefone) VALUES
-			(@idUsuario, @telefone);
+	INSERT INTO Tbl_Usuario (nome, cpf, email, senha, data_Nasc) 
+	VALUES (p_nome, p_cpf, p_email, p_senha, p_data_Nasc);
 
-			COMMIT TRAN;
-		END
+	SET p_idUsuario = LAST_INSERT_ID(); /* Captura o √∫ltimo ID num√©rico gerado pelo campo, 
+    equivalente ao SCOPE_IDENTITY() do SQL Server */
 
-		ELSE
-		BEGIN
-			ROLLBACK TRAN;
-		END
-	END TRY
+	IF ROW_COUNT() = 1 THEN -- Verifica se o INSERT anterior afetou exatamente 1 linha
+		INSERT INTO Tbl_Telefone_Usuario (id_Usuario, telefone) 
+		VALUES (p_idUsuario, p_telefone);
 
-	-- ComeÁo CATCH
-	BEGIN CATCH
+		COMMIT;
+	ELSE
+		ROLLBACK;
+	END IF;
+-- Finaliza o bloco do corpo da Stored Procedure com o delimitador tempor√°rio.
+END //
 
-		IF @@TRANCOUNT > 0 
-			ROLLBACK TRAN
-
-		DECLARE @Mensagem NVARCHAR(4000) = ERROR_MESSAGE();
-
-		RAISERROR(@Mensagem, 16, 1)
-	END CATCH
-END
-GO
+-- Restaura o caractere finalizador padr√£o do MySQL para ;
+DELIMITER ;

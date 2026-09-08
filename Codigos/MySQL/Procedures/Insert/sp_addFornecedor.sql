@@ -1,11 +1,15 @@
 -- ================================================
 -- Stored Procedure: sp_AddFornecedor
--- Descrição: Procedure para inserção de novos fornecedores
--- Autor: Otávio Augusto Canola do Carmo
--- Data Criação: 03/07/2026
+-- DescriÃ§Ã£o: Procedure para inserÃ§Ã£o de novos fornecedores
+-- Autor: OtÃ¡vio Augusto Canola do Carmo
+-- Data CriaÃ§Ã£o: 03/07/2026
 -- ================================================
 
--- Criação Procedure
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS sp_AddFornecedor //
+
+-- CriaÃ§Ã£o Procedure
 CREATE OR ALTER PROCEDURE sp_AddFornecedor
 	-- Fornecedor
 	@nome VARCHAR(255),
@@ -13,14 +17,14 @@ CREATE OR ALTER PROCEDURE sp_AddFornecedor
 	@email VARCHAR(255),
 	@telefone VARCHAR(14),
 
-	-- Endereço
+	-- EndereÃ§o
 	@cep VARCHAR(9),
 	@logradouro VARCHAR(50),
 	@bairro VARCHAR(50),
 	@cidade VARCHAR(100),
 	@uf CHAR(2), 
 
-	-- Endereço Fornecedor
+	-- EndereÃ§o Fornecedor
 	@id_Fornecedor INT,
 	@id_Endereco INT,
 	@numero VARCHAR(5),
@@ -30,16 +34,16 @@ AS
 BEGIN
 
 	-- SET NOCOUNT ON:
-    -- Evita mensagens automáticas "X linhas afetadas"
-    -- Ajuda em procedures (menos “poluição” no resultado)
+    -- Evita mensagens automÃ¡ticas "X linhas afetadas"
+    -- Ajuda em procedures (menos Â“poluiÃ§Ã£oÂ” no resultado)
 	SET NOCOUNT ON;
 
-	-- Começo TRY
+	-- ComeÃ§o TRY
 	BEGIN TRY 
 		
 		BEGIN TRAN
 
-		-- Se existir já um fornecedor cadastrado com o mesmo cnpj ele manda a mensagem
+		-- Se existir jÃ¡ um fornecedor cadastrado com o mesmo cnpj ele manda a mensagem
 		IF EXISTS (
 			SELECT 1
 			FROM Tbl_Fornecedor WITH (UPDLOCK, HOLDLOCK)
@@ -48,24 +52,24 @@ BEGIN
 
 		BEGIN 
 
-			RAISERROR('Fornecedor com cnpj $s já cadastrado.', 16, 1, @cnpj);
+			RAISERROR('Fornecedor com cnpj $s jÃ¡ cadastrado.', 16, 1, @cnpj);
 		
 			ROLLBACK TRAN
 
 			RETURN 
 		END
 		
-		-- Declara a variável do último id adicionado na tabela
+		-- Declara a variÃ¡vel do Ãºltimo id adicionado na tabela
 		DECLARE @ultimo_Id INT;
 
 		-- Adiciona o fornecedor
 		INSERT INTO Tbl_Fornecedor (nome, cnpj, email) VALUES
 		(@nome, @cnpj, @email);
 
-		-- Coloca o valor do último id na variável criada
+		-- Coloca o valor do Ãºltimo id na variÃ¡vel criada
 		SET @ultimo_Id = SCOPE_IDENTITY();
 
-		-- Se adicionar o fornecedor, já adiciona o telefone e o endereço dele
+		-- Se adicionar o fornecedor, jÃ¡ adiciona o telefone e o endereÃ§o dele
 		IF @@ROWCOUNT = 1
 		BEGIN 
 		
@@ -89,7 +93,7 @@ BEGIN
 		END
 	END TRY
 
-	-- Começo CATCH
+	-- ComeÃ§o CATCH
 	BEGIN CATCH
 
 		IF @@TRANCOUNT > 0 
